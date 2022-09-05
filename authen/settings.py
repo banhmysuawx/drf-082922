@@ -121,11 +121,13 @@ WSGI_APPLICATION = "authen.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "django_authen",
-        "USER": "root",
-        "PASSWORD": "password",
-        "HOST": "localhost",
+        # "ENGINE": "django.db.backends.mysql",
+        # "NAME": "django_authen",
+        # "USER": "root",
+        # "PASSWORD": "password",
+        # "HOST": "localhost",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
     }
 }
 
