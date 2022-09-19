@@ -178,5 +178,5 @@ AUTH_USER_MODEL = "users.User"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-CRONJOBS = [("* 7 * * *", "users.cron.my_scheduled_job", ">> " + os.path.join(BASE_DIR,"log/app.log" + " 2>&1 ")),
-            ("27 13 * * *", "users.cron.sent_mail", ">> " + os.path.join(BASE_DIR,"log/app.log" + " 2>&1 "))]
+CRONJOBS = [("0 7 * * *", "users.cron.my_scheduled_job", ">> " + os.path.join(BASE_DIR,"log/app.log" + " 2>&1 ")),
+            ("0 8 * * *", "users.cron.sent_mail", ">> " + os.path.join(BASE_DIR,"log/app.log" + " 2>&1 "))]

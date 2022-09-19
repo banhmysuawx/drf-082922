@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         if re.match(regex, value) is None:
             raise ValidationError(
                 "Password must must have 8 characters, first character is uppercase and have special character",
-                http.HTTPStatus.BAD_REQUEST,
+                http.HTTPStatus.UNPROCESSABLE_ENTITY,
             )
         return value
 
@@ -25,27 +25,27 @@ class UserSerializer(serializers.ModelSerializer):
         try:
             regex = "[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
             if re.match(regex, email) is None:
-                raise ValidationError("Email is not valid", http.HTTPStatus.BAD_REQUEST)
+                raise ValidationError("Email is not valid", http.HTTPStatus.UNPROCESSABLE_ENTITY)
             return email
         except ValidationError:
-            raise ValidationError("Email is not valid", http.HTTPStatus.BAD_REQUEST)
+            raise ValidationError("Email is not valid", http.HTTPStatus.UNPROCESSABLE_ENTITY)
 
     def validate_username(self, username):
         try:
-            if User.objects.filter(username=username).exists():
-                raise ValidationError(
-                    "Username already exists", http.HTTPStatus.BAD_REQUEST
-                )
-            regex = "^[a-zA-Z0-9]*$"
-            print(username)
             if re.match(regex, username) is None:
                 raise ValidationError(
                     "Username doesn't contains special characters or space ",
-                    http.HTTPStatus.BAD_REQUEST,
+                    http.HTTPStatus.UNPROCESSABLE_ENTITY,
                 )
-                return username
+            if User.objects.filter(username=username).exists():
+                raise ValidationError(
+                    "Username already exists", http.HTTPStatus.UNPROCESSABLE_ENTITY
+                )
+            regex = "^[a-zA-Z0-9]*$"
+            print(username)
+            return username
         except ValidationError as e:
-            raise ValidationError(e, http.HTTPStatus.BAD_REQUEST)
+            raise ValidationError(e, http.HTTPStatus.UNPROCESSABLE_ENTITY)
 
     def create(self, validated_data):
         password = validated_data.pop("password", None)
